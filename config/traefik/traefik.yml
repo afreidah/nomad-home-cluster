@@ -1,0 +1,21 @@
+log:
+  level: DEBUG
+
+api:
+  insecure: true
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+ping:
+  entryPoint: web
+
+providers:
+  consulCatalog:
+    endpoint:
+      address: "192.168.1.160:8500"
+    exposedByDefault: false
+
