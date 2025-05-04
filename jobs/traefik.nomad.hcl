@@ -1,52 +1,57 @@
 job "traefik" {
-  datacenters = ["dc1"]
-  type        = "service"
-
   group "traefik" {
+
+    network {
+      mode = "host"
+      port "web" {
+        static = 80
+      }
+      port "websecure" {
+        static = 443
+      }
+    }
+
     task "traefik" {
       driver = "docker"
 
       config {
-        image        = "traefik:v2.10"
-        command      = "traefik"
-        args         = ["--configFile=/etc/traefik/traefik.yml"]
-        network_mode = "host"
-        volumes = [
-          "/Users/alexfreidah/tools/nomad-home-cluster/config/traefik/traefik.yml:/etc/traefik/traefik.yml"
+        image = "traefik:v2.10"
+
+        args = [
+          "--entrypoints.web.address=:80",
+          "--entrypoints.websecure.address=:443",
+          "--api.dashboard=true",
+          "--providers.consulCatalog=true",
+          "--providers.consulCatalog.endpoint.address=192.168.1.160:8500",
+          "--log.level=DEBUG"
         ]
-      }
 
-      resources {
-        cpu    = 200
-        memory = 256
-        network {
-          mbits = 10
-          port "http" {
-            static = 80
-          }
-          port "https" {
-            static = 443
-          }
-        }
-      }
-
-      service {
-        name = "traefik"
-        port = "http"
-        tags = ["traefik"]
-        check {
-          type     = "http"
-          path     = "/ping"
-          interval = "10s"
-          timeout  = "2s"
-        }
+        ports = ["web", "websecure"]
+        cap_add = ["NET_BIND_SERVICE"]
+        cap_drop = ["ALL"]
       }
 
       restart {
         attempts = 5
-        interval = "2m"
-        delay    = "10s"
-        mode     = "delay"
+        interval = "10m"
+        delay    = "30s"
+        mode     = "fail"
+      }
+
+      service {
+        name = "traefik"
+        provider = "nomad"
+        port = "web"
+
+        check {
+          name     = "traefik-ping"
+          type     = "http"
+          path     = "/ping"
+          method   = "GET"
+          interval = "10s"
+          timeout  = "2s"
+          port     = "web"
+        }
       }
     }
   }
