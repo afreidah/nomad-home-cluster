@@ -10,8 +10,6 @@
 !_TAG_FIELD_DESCRIPTION	typeref	/Type and name of a variable or typedef/
 !_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
 !_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
-!_TAG_KIND_DESCRIPTION!Iniconf	k,key	/keys/
-!_TAG_KIND_DESCRIPTION!Iniconf	s,section	/sections/
 !_TAG_KIND_DESCRIPTION!Markdown	S,subsection	/level 2 sections/
 !_TAG_KIND_DESCRIPTION!Markdown	T,l4subsection	/level 4 sections/
 !_TAG_KIND_DESCRIPTION!Markdown	c,chapter	/chapters/
@@ -20,145 +18,23 @@
 !_TAG_KIND_DESCRIPTION!Markdown	s,section	/sections/
 !_TAG_KIND_DESCRIPTION!Markdown	t,subsubsection	/level 3 sections/
 !_TAG_KIND_DESCRIPTION!Markdown	u,l5subsection	/level 5 sections/
-!_TAG_KIND_DESCRIPTION!Sh	a,alias	/aliases/
-!_TAG_KIND_DESCRIPTION!Sh	f,function	/functions/
-!_TAG_KIND_DESCRIPTION!Sh	h,heredoc	/label for here document/
-!_TAG_KIND_DESCRIPTION!Sh	s,script	/script files/
-!_TAG_KIND_DESCRIPTION!SystemdUnit	u,unit	/units/
-!_TAG_KIND_DESCRIPTION!Terraform	d,data	/data/
-!_TAG_KIND_DESCRIPTION!Terraform	l,local	/locals/
-!_TAG_KIND_DESCRIPTION!Terraform	m,module	/modules/
-!_TAG_KIND_DESCRIPTION!Terraform	o,output	/output/
-!_TAG_KIND_DESCRIPTION!Terraform	p,provider	/providers/
-!_TAG_KIND_DESCRIPTION!Terraform	r,resource	/resources/
-!_TAG_KIND_DESCRIPTION!Terraform	v,variable	/variables/
+!_TAG_KIND_DESCRIPTION!Yaml	a,anchor	/anchors/
 !_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
 !_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
 !_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
 !_TAG_OUTPUT_VERSION	0.0	/current.age/
-!_TAG_PARSER_VERSION!Iniconf	0.0	/current.age/
 !_TAG_PARSER_VERSION!Markdown	1.1	/current.age/
-!_TAG_PARSER_VERSION!Sh	0.0	/current.age/
-!_TAG_PARSER_VERSION!SystemdUnit	0.0	/current.age/
-!_TAG_PARSER_VERSION!Terraform	1.1	/current.age/
+!_TAG_PARSER_VERSION!Yaml	0.0	/current.age/
 !_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
-!_TAG_PROC_CWD	/Users/alexfreidah/tools/learn-nomad-getting-started/	//
+!_TAG_PROC_CWD	/Users/alexfreidah/tools/nomad-home-cluster/	//
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	6.1.0	//
-!_TAG_ROLE_DESCRIPTION!Sh!heredoc	endmarker	/end marker/
-!_TAG_ROLE_DESCRIPTION!Sh!script	loaded	/loaded/
-!_TAG_ROLE_DESCRIPTION!SystemdUnit!unit	After	/referred in After key/
-!_TAG_ROLE_DESCRIPTION!SystemdUnit!unit	Before	/referred in Before key/
-!_TAG_ROLE_DESCRIPTION!SystemdUnit!unit	RequiredBy	/referred in RequiredBy key/
-!_TAG_ROLE_DESCRIPTION!SystemdUnit!unit	Requires	/referred in Requires key/
-!_TAG_ROLE_DESCRIPTION!SystemdUnit!unit	WantedBy	/referred in WantedBy key/
-!_TAG_ROLE_DESCRIPTION!SystemdUnit!unit	Wants	/referred in Wants key/
-!_TAG_ROLE_DESCRIPTION!Terraform!variable	assigned	/assigned in Variable Definitions (.tfvars) files/
-After	shared/config/nomad.service	/^After=network-online.target$/;"	k	section:Unit
-Description	shared/config/nomad.service	/^Description=Nomad$/;"	k	section:Unit
-Documentation	shared/config/nomad.service	/^Documentation=https:\/\/nomadproject.io\/docs\/$/;"	k	section:Unit
-Example application	jobs/README.md	/^# Example application$/;"	c
-ExecReload	shared/config/nomad.service	/^ExecReload=\/bin\/kill -HUP $MAINPID$/;"	k	section:Service
-ExecStart	shared/config/nomad.service	/^ExecStart=\/usr\/local\/bin\/nomad agent -config \/etc\/nomad.d$/;"	k	section:Service
-Getting started with Nomad	README.md	/^# Getting started with Nomad$/;"	c
-IP_Addresses	aws/outputs.tf	/^output "IP_Addresses" {$/;"	o
-IP_Addresses	azure/outputs.tf	/^output "IP_Addresses" {$/;"	o
-IP_Addresses	gcp/outputs.tf	/^output "IP_Addresses" {$/;"	o
-Install	shared/config/nomad.service	/^[Install]$/;"	s
-KillMode	shared/config/nomad.service	/^KillMode=process$/;"	k	section:Service
-KillSignal	shared/config/nomad.service	/^KillSignal=SIGINT$/;"	k	section:Service
-LimitNOFILE	shared/config/nomad.service	/^LimitNOFILE=infinity$/;"	k	section:Service
-LimitNPROC	shared/config/nomad.service	/^LimitNPROC=infinity$/;"	k	section:Service
-Restart	shared/config/nomad.service	/^Restart=on-failure$/;"	k	section:Service
-RestartSec	shared/config/nomad.service	/^RestartSec=2$/;"	k	section:Service
-Service	shared/config/nomad.service	/^[Service]$/;"	s
-StartLimitBurst	shared/config/nomad.service	/^StartLimitBurst=3$/;"	k	section:Unit
-StartLimitIntervalSec	shared/config/nomad.service	/^StartLimitIntervalSec=10$/;"	k	section:Unit
-TasksMax	shared/config/nomad.service	/^TasksMax=infinity$/;"	k	section:Service
-Unit	shared/config/nomad.service	/^[Unit]$/;"	s
-WantedBy	shared/config/nomad.service	/^WantedBy=multi-user.target$/;"	k	section:Install
-Wants	shared/config/nomad.service	/^Wants=network-online.target$/;"	k	section:Unit
-allow_all_internal	aws/main.tf	/^resource "aws_security_group" "allow_all_internal" {$/;"	r
-allow_all_internal	azure/main.tf	/^resource "azurerm_network_security_rule" "allow_all_internal" {$/;"	r
-allow_all_internal	gcp/main.tf	/^resource "google_compute_firewall" "allow_all_internal" {$/;"	r
-allowlist_ip	aws/variables.tf	/^variable "allowlist_ip" {$/;"	v
-allowlist_ip	azure/variables.tf	/^variable "allowlist_ip" {$/;"	v
-allowlist_ip	gcp/variables.tf	/^variable "allowlist_ip" {$/;"	v
-auto_discover_cluster	aws/main.tf	/^data "aws_iam_policy_document" "auto_discover_cluster" {$/;"	d
-auto_discover_cluster	aws/main.tf	/^resource "aws_iam_role_policy" "auto_discover_cluster" {$/;"	r
-aws	aws/main.tf	/^provider "aws" {$/;"	p
-azurerm	azure/main.tf	/^provider "azurerm" {$/;"	p
-client	aws/main.tf	/^resource "aws_instance" "client" {$/;"	r
-client	azure/main.tf	/^resource "azurerm_linux_virtual_machine" "client" {$/;"	r
-client	gcp/main.tf	/^resource "google_compute_instance" "client" {$/;"	r
-client_count	aws/variables.tf	/^variable "client_count" {$/;"	v
-client_count	azure/variables.tf	/^variable "client_count" {$/;"	v
-client_count	gcp/variables.tf	/^variable "client_count" {$/;"	v
-client_id	azure/variables.tf	/^variable "client_id" {$/;"	v
-client_instance_type	aws/variables.tf	/^variable "client_instance_type" {$/;"	v
-client_instance_type	azure/variables.tf	/^variable "client_instance_type" {$/;"	v
-client_instance_type	gcp/variables.tf	/^variable "client_instance_type" {$/;"	v
-client_secret	azure/variables.tf	/^variable "client_secret" {$/;"	v
-clients_ingress	aws/main.tf	/^resource "aws_security_group" "clients_ingress" {$/;"	r
-clients_ingress	azure/main.tf	/^resource "azurerm_network_security_rule" "clients_ingress" {$/;"	r
-clients_ingress	gcp/main.tf	/^resource "google_compute_firewall" "clients_ingress" {$/;"	r
-default	aws/main.tf	/^data "aws_vpc" "default" {$/;"	d
-generated_key	aws/main.tf	/^resource "aws_key_pair" "generated_key" {$/;"	r
-google	gcp/main.tf	/^provider "google" {$/;"	p
-hashistack	azure/main.tf	/^resource "azurerm_resource_group" "hashistack" {$/;"	r
-hashistack	gcp/main.tf	/^resource "google_compute_network" "hashistack" {$/;"	r
-hashistack-client-ni	azure/main.tf	/^resource "azurerm_network_interface" "hashistack-client-ni" {$/;"	r
-hashistack-client-public-ip	azure/main.tf	/^resource "azurerm_public_ip" "hashistack-client-public-ip" {$/;"	r
-hashistack-server-ni	azure/main.tf	/^resource "azurerm_network_interface" "hashistack-server-ni" {$/;"	r
-hashistack-server-public-ip	azure/main.tf	/^resource "azurerm_public_ip" "hashistack-server-public-ip" {$/;"	r
-hashistack-sg	azure/main.tf	/^resource "azurerm_network_security_group" "hashistack-sg" {$/;"	r
-hashistack-sg-association	azure/main.tf	/^resource "azurerm_subnet_network_security_group_association" "hashistack-sg-association" {$/;"	r
-hashistack-sn	azure/main.tf	/^resource "azurerm_subnet" "hashistack-sn" {$/;"	r
-hashistack-vn	azure/main.tf	/^resource "azurerm_virtual_network" "hashistack-vn" {$/;"	r
-instance_profile	aws/main.tf	/^resource "aws_iam_instance_profile" "instance_profile" {$/;"	r
-instance_role	aws/main.tf	/^data "aws_iam_policy_document" "instance_role" {$/;"	d
-instance_role	aws/main.tf	/^resource "aws_iam_role" "instance_role" {$/;"	r
-location	azure/variables.tf	/^variable "location" {$/;"	v
-name	aws/variables.tf	/^variable "name" {$/;"	v
-name	azure/variables.tf	/^variable "name" {$/;"	v
-name	gcp/variables.tf	/^variable "name" {$/;"	v
-nomad_ip	aws/outputs.tf	/^output "nomad_ip" {$/;"	o
-nomad_ip	azure/outputs.tf	/^output "nomad_ip" {$/;"	o
-nomad_ip	gcp/outputs.tf	/^output "nomad_ip" {$/;"	o
-nomad_ui_ingress	aws/main.tf	/^resource "aws_security_group" "nomad_ui_ingress" {$/;"	r
-nomad_ui_ingress	azure/main.tf	/^resource "azurerm_network_security_rule" "nomad_ui_ingress" {$/;"	r
-nomad_ui_ingress	gcp/main.tf	/^resource "google_compute_firewall" "nomad_ui_ingress" {$/;"	r
-nomad_version	aws/variables.tf	/^variable "nomad_version" {$/;"	v
-nomad_version	azure/variables.tf	/^variable "nomad_version" {$/;"	v
-nomad_version	gcp/variables.tf	/^variable "nomad_version" {$/;"	v
-private_key	aws/main.tf	/^resource "tls_private_key" "private_key" {$/;"	r
-private_key	azure/main.tf	/^resource "tls_private_key" "private_key" {$/;"	r
-private_key	gcp/main.tf	/^resource "tls_private_key" "private_key" {$/;"	r
-project	gcp/variables.tf	/^variable "project" {$/;"	v
-region	aws/variables.tf	/^variable "region" {$/;"	v
-region	gcp/variables.tf	/^variable "region" {$/;"	v
-retry_join	aws/main.tf	/^  retry_join = "provider=aws tag_key=NomadJoinTag tag_value=auto-join"$/;"	l
-retry_join	azure/main.tf	/^  retry_join = "provider=azure tag_name=NomadJoinTag tag_value=auto-join subscription_id=${var.s/;"	l
-retry_join	gcp/main.tf	/^  retry_join = "provider=gce project_name=${var.project} tag_value=auto-join"$/;"	l
-root_block_device_size	aws/variables.tf	/^variable "root_block_device_size" {$/;"	v
-root_block_device_size	azure/variables.tf	/^variable "root_block_device_size" {$/;"	v
-root_block_device_size	gcp/variables.tf	/^variable "root_block_device_size" {$/;"	v
-server	aws/main.tf	/^resource "aws_instance" "server" {$/;"	r
-server	azure/main.tf	/^resource "azurerm_linux_virtual_machine" "server" {$/;"	r
-server	gcp/main.tf	/^resource "google_compute_instance" "server" {$/;"	r
-server_count	aws/variables.tf	/^variable "server_count" {$/;"	v
-server_count	azure/variables.tf	/^variable "server_count" {$/;"	v
-server_count	gcp/variables.tf	/^variable "server_count" {$/;"	v
-server_instance_type	aws/variables.tf	/^variable "server_instance_type" {$/;"	v
-server_instance_type	azure/variables.tf	/^variable "server_instance_type" {$/;"	v
-server_instance_type	gcp/variables.tf	/^variable "server_instance_type" {$/;"	v
-ssh_ingress	aws/main.tf	/^resource "aws_security_group" "ssh_ingress" {$/;"	r
-ssh_ingress	azure/main.tf	/^resource "azurerm_network_security_rule" "ssh_ingress" {$/;"	r
-ssh_ingress	gcp/main.tf	/^resource "google_compute_firewall" "ssh_ingress" {$/;"	r
-subscription_id	azure/variables.tf	/^variable "subscription_id" {$/;"	v
-tenant_id	azure/variables.tf	/^variable "tenant_id" {$/;"	v
-ubuntu	aws/main.tf	/^data "aws_ami" "ubuntu" {$/;"	d
-ubuntu-1604	gcp/main.tf	/^data "google_compute_image" "ubuntu-1604" {$/;"	d
-zone	gcp/variables.tf	/^variable "zone" {$/;"	v
+!_TAG_ROLE_DESCRIPTION!Yaml!anchor	alias	/alias/
+🌍 External Access	docs/home-cluster-goals.md	/^## 🌍 External Access$/;"	s	chapter:🏠 Home Cluster Project - High-Level Goals
+🌐 Network & Traffic Management	docs/home-cluster-goals.md	/^## 🌐 Network & Traffic Management$/;"	s	chapter:🏠 Home Cluster Project - High-Level Goals
+🏠 Home Cluster Project - High-Level Goals	docs/home-cluster-goals.md	/^# 🏠 Home Cluster Project - High-Level Goals$/;"	c
+📦 Cluster Infrastructure	docs/home-cluster-goals.md	/^## 📦 Cluster Infrastructure$/;"	s	chapter:🏠 Home Cluster Project - High-Level Goals
+🧩 Service Architecture	docs/home-cluster-goals.md	/^## 🧩 Service Architecture$/;"	s	chapter:🏠 Home Cluster Project - High-Level Goals
+🧪 Local Development Goals (Current Phase)	docs/home-cluster-goals.md	/^## 🧪 Local Development Goals (Current Phase)$/;"	s	chapter:🏠 Home Cluster Project - High-Level Goals
