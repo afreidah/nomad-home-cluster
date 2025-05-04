@@ -2,7 +2,7 @@
 # Nomad Server Config
 # =============================
 
-bind_addr = "0.0.0.0"
+bind_addr = "192.168.1.160"
 
 data_dir = "/opt/nomad"
 
@@ -16,7 +16,9 @@ advertise {
 server {
   enabled          = true
   bootstrap_expect = 1
+  raft_multiplier  = 2
 }
+
 
 # Enable the Docker plugin with privileged containers (optional)
 plugin "docker" {

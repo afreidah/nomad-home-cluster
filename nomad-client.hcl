@@ -2,8 +2,6 @@
 # Nomad Client Config
 # =============================
 
-bind_addr = "0.0.0.0"
-
 data_dir = "/opt/nomad"
 
 # ⬇️ On Linux (Raspberry Pi), change "en0" to "eth0"
@@ -15,12 +13,12 @@ advertise {
 
 client {
   enabled = true
-  servers = ["127.0.0.1:4647"]
+  servers = ["192.168.1.160:4647"]
 }
 
 # 🔌 Enable Consul integration
 consul {
-  address          = "127.0.0.1:8500"
+  address          = "192.168.1.160:8500"
   auto_advertise   = true
   client_auto_join = true
 }
@@ -34,3 +32,9 @@ plugin "docker" {
   }
 }
 
+plugin "cni" {
+  config {
+    bin_dir  = "/opt/cni/bin"
+    conf_dir = "/etc/cni/net.d"
+  }
+}
