@@ -1,4 +1,5 @@
 .vagrant/
+vpn/*
 aws.env/us-east/.terraform/
 .terraform*
 examples/
