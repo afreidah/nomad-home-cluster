@@ -18,29 +18,17 @@
 !_TAG_KIND_DESCRIPTION!Markdown	s,section	/sections/
 !_TAG_KIND_DESCRIPTION!Markdown	t,subsubsection	/level 3 sections/
 !_TAG_KIND_DESCRIPTION!Markdown	u,l5subsection	/level 5 sections/
-<<<<<<< HEAD
-!_TAG_KIND_DESCRIPTION!Yaml	a,anchor	/anchors/
-=======
->>>>>>> add-cdktf-as-job-provisioner
 !_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
 !_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
 !_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
 !_TAG_OUTPUT_VERSION	0.0	/current.age/
 !_TAG_PARSER_VERSION!Markdown	1.1	/current.age/
-<<<<<<< HEAD
-!_TAG_PARSER_VERSION!Yaml	0.0	/current.age/
-=======
->>>>>>> add-cdktf-as-job-provisioner
 !_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
 !_TAG_PROC_CWD	/Users/alexfreidah/tools/nomad-home-cluster/	//
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	6.1.0	//
-<<<<<<< HEAD
-!_TAG_ROLE_DESCRIPTION!Yaml!anchor	alias	/alias/
-=======
->>>>>>> add-cdktf-as-job-provisioner
 🌍 External Access	docs/home-cluster-goals.md	/^## 🌍 External Access$/;"	s	chapter:🏠 Home Cluster Project - High-Level Goals
 🌐 Network & Traffic Management	docs/home-cluster-goals.md	/^## 🌐 Network & Traffic Management$/;"	s	chapter:🏠 Home Cluster Project - High-Level Goals
 🏠 Home Cluster Project - High-Level Goals	docs/home-cluster-goals.md	/^# 🏠 Home Cluster Project - High-Level Goals$/;"	c
