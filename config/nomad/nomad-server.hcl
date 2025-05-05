@@ -1,6 +1,8 @@
 # =============================
-# Nomad Client Config
+# Nomad Server Config
 # =============================
+
+bind_addr = "192.168.1.160"
 
 data_dir = "/opt/nomad"
 
@@ -11,30 +13,23 @@ advertise {
   serf = "{{ GetInterfaceIP \"en0\" }}"
 }
 
-client {
-  enabled = true
-  servers = ["192.168.1.160:4647"]
+server {
+  enabled          = true
+  bootstrap_expect = 1
+  raft_multiplier  = 2
 }
 
-# 🔌 Enable Consul integration
-consul {
-  address          = "192.168.1.160:8500"
-  auto_advertise   = true
-  client_auto_join = true
-}
 
+# Enable the Docker plugin with privileged containers (optional)
 plugin "docker" {
   config {
     allow_privileged = true
-    volumes {
-      enabled = true
-    }
   }
 }
 
-plugin "cni" {
+plugin "bridge" {
   config {
-    bin_dir  = "/opt/cni/bin"
-    conf_dir = "/etc/cni/net.d"
+    cni_path = "/opt/cni/bin"
   }
 }
+

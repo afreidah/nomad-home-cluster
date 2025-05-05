@@ -1,13 +1,23 @@
 job "traefik" {
+  type        = "service"
+
   group "traefik" {
+    count = 1
 
     network {
       mode = "host"
-      port "web" {
+
+      port "http" {
         static = 80
       }
-      port "websecure" {
-        static = 443
+
+      port "https" {
+        to     = 443
+        static = 8443
+      }
+
+      port "dashboard" {
+        static = 8888
       }
     }
 
@@ -20,15 +30,27 @@ job "traefik" {
         args = [
           "--entrypoints.web.address=:80",
           "--entrypoints.websecure.address=:443",
+          "--entrypoints.dashboard.address=:8888",
           "--api.dashboard=true",
+          "--api.insecure=true", # enables dashboard on /dashboard
           "--providers.consulCatalog=true",
           "--providers.consulCatalog.endpoint.address=192.168.1.160:8500",
           "--log.level=DEBUG"
         ]
 
-        ports = ["web", "websecure"]
-        cap_add = ["NET_BIND_SERVICE"]
-        cap_drop = ["ALL"]
+        ports = ["http", "https", "dashboard"]
+      }
+
+      service {
+        name     = "traefik"
+        port     = "http"
+
+        check {
+          name     = "dashboard"
+          type     = "tcp"
+          interval = "10s"
+          timeout  = "2s"
+        }
       }
 
       restart {
@@ -38,21 +60,11 @@ job "traefik" {
         mode     = "fail"
       }
 
-      service {
-        name = "traefik"
-        provider = "nomad"
-        port = "web"
-
-        check {
-          name     = "traefik-ping"
-          type     = "http"
-          path     = "/ping"
-          method   = "GET"
-          interval = "10s"
-          timeout  = "2s"
-          port     = "web"
-        }
+      resources {
+        cpu    = 500
+        memory = 256
       }
     }
   }
 }
+
