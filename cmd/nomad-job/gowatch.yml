@@ -1,0 +1,2 @@
+app_name: "nomad-job"
+output: ../../bin/nomad-job/nomad-job
