@@ -27,9 +27,9 @@ plugin "docker" {
   }
 }
 
-plugin "bridge" {
-  config {
-    cni_path = "/opt/cni/bin"
-  }
-}
+#plugin "bridge" {
+#  config {
+#    cni_path = "/opt/cni/bin/"
+#  }
+#}
 
