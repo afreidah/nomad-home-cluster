@@ -20,3 +20,8 @@ ui_config {
 connect {
   enabled = true
 }
+
+recursors = ["8.8.8.8"]         # fallback for non-.consul names
+ports {
+  dns = 8600
+}
