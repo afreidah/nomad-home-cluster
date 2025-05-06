@@ -1,4 +1,5 @@
 job "pihole" {
+  datacenters = ["dc1"]
   type = "service"
 
   group "pihole" {
@@ -8,7 +9,8 @@ job "pihole" {
       mode = "host"
 
       port "dns" {
-        static = 53
+        static = 54
+        to = 53
       }
 
       port "http" {
@@ -27,11 +29,9 @@ job "pihole" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.pihole.rule=PathPrefix(`/pihole`)",
+        "traefik.http.routers.pihole.rule=PathPrefix(`/admin`)",
         "traefik.http.routers.pihole.entrypoints=web",
-        "traefik.http.services.pihole.loadbalancer.server.port=8080",
-        "traefik.http.routers.pihole.middlewares=pihole-strip",
-        "traefik.http.middlewares.pihole-strip.stripprefix.prefixes=/pihole"
+        "traefik.http.services.pihole.loadbalancer.server.port=8080"
       ]
 
       check {
@@ -47,11 +47,13 @@ job "pihole" {
       driver = "docker"
 
       env = {
-        WEBPASSWORD = "test"
         DNS1        = "1.1.1.1"
         DNS2        = "8.8.8.8"
         TZ          = "America/Los_Angeles"
+        FTLCONF_LOCAL_IPV4 = "0.0.0.0"
+        FTLCONF_webserver_api_password = "test"
       }
+
 
       config {
         image = "pihole/pihole:latest"
@@ -59,7 +61,6 @@ job "pihole" {
 
         volumes = [
           "dns:/etc/dnsmasq.d",
-          # "etc-pihole:/etc/pihole"
         ]
 
         dns_servers = ["127.0.0.1", "1.1.1.1"]
@@ -71,6 +72,11 @@ job "pihole" {
         interval = "10m"
         delay    = "30s"
         mode     = "fail"
+      }
+
+      resources {
+        cpu    = 500
+        memory = 256
       }
     }
   }
