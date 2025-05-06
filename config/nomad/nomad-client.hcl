@@ -33,9 +33,9 @@ plugin "docker" {
   }
 }
 
-plugin "cni" {
-  config {
-    bin_dir  = "/opt/cni/bin"
-    conf_dir = "/etc/cni/net.d"
-  }
-}
+#plugin "cni" {
+#  config {
+#    bin_dir  = "/opt/cni/bin/"
+#    conf_dir = "/etc/cni/net.d"
+#  }
+#}
