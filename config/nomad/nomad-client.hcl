@@ -1,10 +1,9 @@
 # =============================
-# Nomad Client Config
+# Nomad Client Config (macOS)
 # =============================
 
 data_dir = "/opt/nomad"
 
-# ⬇️ On Linux (Raspberry Pi), change "en0" to "eth0"
 advertise {
   http = "{{ GetInterfaceIP \"en0\" }}"
   rpc  = "{{ GetInterfaceIP \"en0\" }}"
@@ -12,12 +11,31 @@ advertise {
 }
 
 client {
-  enabled = true
-  servers = ["192.168.1.160:4647"]
-  cni_path = "/opt/cni/bin"
+  enabled   = true
+  servers   = ["192.168.1.160:4647"]
+  cni_path  = "/opt/cni/bin"
+
+  host_volume "dnsmasq_config" {
+    path      = "/opt/nomad/config/dnsmasq_config"
+    read_only = false
+  }
+
+  host_volume "pihole_data" {
+    path      = "/opt/nomad/data/pihole"
+    read_only = false
+  }
+
+  host_volume "traefik_data" {
+    path      = "/opt/nomad/data/traefik"
+    read_only = false
+  }
+
+  host_volume "unbound_data" {
+    path      = "/opt/nomad/data/unbound"
+    read_only = false
+  }
 }
 
-# 🔌 Enable Consul integration
 consul {
   address          = "192.168.1.160:8500"
   auto_advertise   = true
@@ -27,15 +45,6 @@ consul {
 plugin "docker" {
   config {
     allow_privileged = true
-    volumes {
-      enabled = true
-    }
   }
 }
 
-#plugin "cni" {
-#  config {
-#    bin_dir  = "/opt/cni/bin/"
-#    conf_dir = "/etc/cni/net.d"
-#  }
-#}

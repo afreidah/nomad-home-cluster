@@ -1,38 +1,56 @@
 job "deluge" {
-  type = "service"
+  datacenters = ["dc1"]
+  type        = "service"
 
   group "deluge" {
-    count = 1
-    
     network {
-      port "deluge-web" {
-        static = 8112
-      }
+      mode = "host"
     }
 
-    service {
-      name = "deluge-web"
-      port = "deluge-web"
-
-      check {
-        name     = "deluge-check"
-        type     = "tcp"
-        interval = "10s"
-        timeout  = "2s"
-      }
-    }
-
-    task "deluge-task" {
+    task "deluge" {
       driver = "docker"
 
-      env = {
-        "PUID" = "1000"
-        "PGID" = "1000"
-        "SOCKS5_PROXY" = "socks5://vpn:1080"  # The VPN task exposes SOCKS5 proxy on port 1080
-      }
       config {
-        image = "linuxserver/deluge:latest"
-        ports = ["deluge-web"]
+        image = "linuxserver/deluge"
+        network_mode = "host"
+        volumes = [
+          "local/deluge-config:/config",
+          "local/downloads:/downloads"
+        ]
+      }
+
+      env {
+        PUID = "1000"
+        PGID = "1000"
+        TZ   = "UTC"
+      }
+
+      service {
+        name     = "deluge"
+        port     = "8112"
+        provider = "consul"
+
+        tags = [
+          "traefik.enable=true",
+          "traefik.http.routers.deluge.rule=Host(`deluge.alexanddakota.com`)",
+          "traefik.http.routers.deluge.entrypoints=https",
+          "traefik.http.routers.deluge.tls=true",
+          "traefik.http.routers.deluge.tls.certresolver=dns",
+          "traefik.http.services.deluge.loadbalancer.server.port=8112"
+        ]
+
+        check {
+          type     = "http"
+          path     = "/"
+          interval = "10s"
+          timeout  = "2s"
+          port     = 8112
+        }
+      }
+
+      resources {
+        cpu    = 200
+        memory = 256
       }
     }
   }

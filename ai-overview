@@ -1,0 +1,34 @@
+This setup leverages Nomad and Consul for orchestration and service discovery, with Traefik handling external routing. All services are deployed behind OpenVPN, and Pi-hole/Unbound provide DNS resolution. A Docker Registry and its UI manage container images, and a Deluge Torrent server handles torrents. All services are registered with Consul and exposed through Traefik, leveraging the power of Nomad's flexible scheduler for easy deployment and management. 
+Here's a more detailed breakdown:
+Core Components:
+Nomad (3 Nodes): Nomad is the workload scheduler, responsible for deploying and managing all services within the cluster. 
+Consul (3 Nodes): Consul serves as the service discovery and configuration repository. 
+Traefik: Traefik acts as a dynamic reverse proxy and load balancer, routing traffic to the appropriate services registered with Consul. 
+Deployed Services (Behind OpenVPN):
+Pi-hole + Unbound: Provides DNS resolution and ad-blocking, potentially improving browsing experience. 
+Docker Registry: Stores container images for efficient deployment. 
+Docker Registry UI: Provides a web interface to manage Docker Registry. 
+OpenVPN: Encrypts all communication within the network, enhancing security. 
+Deluge Torrent Server: Manages torrent downloads. 
+Other Services: Any additional services you want to run can be added here, all registered with Consul and exposed by Traefik. 
+Network Architecture:
+1. External Traffic:
+External clients access services through a single Traefik entry point, which uses Consul to discover and route traffic to the appropriate backend services. 
+2. Consul Service Discovery:
+Services register with Consul, providing information about their availability and address. 
+3. Nomad Orchestration:
+Nomad deploys and manages all services, ensuring they are running and healthy. 
+4. OpenVPN Security:
+All internal communication within the cluster (including between Nomad, Consul, and services) is protected by OpenVPN. 
+Benefits of this Architecture:
+Scalability:
+Nomad and Consul can manage a large number of services across multiple nodes. 
+Reliability:
+Services can be automatically restarted if they fail, ensuring high availability. 
+Flexibility:
+Nomad can deploy any workload, from containerized applications to non-containerized services. 
+Security:
+OpenVPN provides a secure, encrypted network for internal communication. 
+Simplified Management:
+Consul, Nomad, and Traefik provide a unified platform for managing your infrastructure. 
+This architecture provides a robust and flexible foundation for deploying a variety of services, all managed and secured by Nomad, Consul, and Traefik, with added features like Pi-hole/Unbound and OpenVPN for a complete solution. 
