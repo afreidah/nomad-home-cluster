@@ -1,6 +1,6 @@
 job "pihole" {
   datacenters = ["dc1"]
-  type = "service"
+  type        = "service"
 
   group "pihole" {
     count = 1
@@ -9,12 +9,15 @@ job "pihole" {
       mode = "host"
 
       port "dns" {
-        static = 54
-        to = 53
+        static = 53
+      }
+
+      port "dhcp" {
+        static = 57
       }
 
       port "http" {
-        static = 8080
+        static      = 80
       }
 
       port "https" {
@@ -30,13 +33,16 @@ job "pihole" {
       tags = [
         "traefik.enable=true",
         "traefik.http.routers.pihole.rule=PathPrefix(`/admin`)",
-        "traefik.http.routers.pihole.entrypoints=web",
-        "traefik.http.services.pihole.loadbalancer.server.port=8080"
+        "traefik.http.routers.pihole.entrypoints=",
+        "traefik.http.routers.pihole.middlewares=pihole-stripprefix",
+        "traefik.http.middlewares.pihole-stripprefix.stripprefix.prefixes=/admin",
+        "traefik.http.services.pihole.loadbalancer.server.port=80"
       ]
 
       check {
         name     = "pihole-http"
-        type     = "tcp"
+        type     = "http"
+        path     = "/admin/"
         interval = "10s"
         timeout  = "2s"
         port     = "http"
@@ -46,25 +52,45 @@ job "pihole" {
     task "pihole-task" {
       driver = "docker"
 
-      env = {
-        DNS1        = "1.1.1.1"
-        DNS2        = "8.8.8.8"
-        TZ          = "America/Los_Angeles"
-        FTLCONF_LOCAL_IPV4 = "0.0.0.0"
-        FTLCONF_webserver_api_password = "test"
+      template {
+        data = <<EOF
+# /opt/pihole/02-custom.conf
+# Explicitly allow requests from LAN
+server=/consul/192.168.1.225#8600
+# server=192.168.1.225#5335
+bind-interfaces
+listen-address=0.0.0.0
+allow-address=0.0.0.0
+EOF
+        destination = "local/dnsmasq.conf"
+        change_mode = "restart"
       }
 
-
       config {
-        image = "pihole/pihole:latest"
-        ports = ["dns", "http", "https"]
+        image        = "pihole/pihole:latest"
+        ports        = ["dns", "http", "https", "dhcp"]
+        privileged   = true
+        dns_servers  = ["8.8.8.8", "1.1.1.1"]
 
         volumes = [
-          "dns:/etc/dnsmasq.d",
+          "/opt/nomad/data/pihole:/etc/pihole",
+          "local/dnsmasq.conf:/etc/dnsmasq.d/02-pihole-custom.conf",
         ]
+      }
+      
+      env = {
+        PIHOLE_DNSMASQ_LISTENING = "all"
+        PIHOLE_DNS_1 = "unbound.service.consul#5335"
+        PIHOLE_DNS_2 = "192.168.1.225"
+        TZ = "America/Los_Angeles"
+        WEB_PORT = "80"
+        FTLCONF_webserver_api_password = "test"
+        VIRTUAL_HOST = "0.0.0.0"
+      }
 
-        dns_servers = ["127.0.0.1", "1.1.1.1"]
-        privileged  = true
+      resources {
+        cpu    = 150
+        memory = 128
       }
 
       restart {
@@ -73,12 +99,6 @@ job "pihole" {
         delay    = "30s"
         mode     = "fail"
       }
-
-      resources {
-        cpu    = 500
-        memory = 256
-      }
     }
   }
 }
-

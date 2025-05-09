@@ -1,37 +1,52 @@
 job "pia-vpn" {
   datacenters = ["dc1"]
+  type = "service"
 
   group "vpn" {
-    task "openvpn" {
+    count = 1
+
+    network {
+      mode = "bridge"
+    }
+
+    task "pia" {
       driver = "docker"
 
       config {
-        image        = "dperson/openvpn-client"
-        network_mode = "host"  # Use host's network stack directly
-        command      = "openvpn"
-        args = [
-          "--config", "/vpn/us_california.ovpn",
-          "--auth-user-pass", "/vpn/pia_credentials.txt"
-        ]
-      }
+        image = "qmcgaw/gluetun:latest"
+        ports = []
+        network_mode = "bridge"
 
-      # Define volume mount
-      volumes = [
-        "/Users/alexfreidah/tools/nomad-homelap-repo/vpn:/vpn"
-      ]
+        env = {
+          VPN_SERVICE_PROVIDER = "pia"
+          VPN_TYPE             = "openvpn"
+          PIA_USER             = "your_pia_username"
+          PIA_PASSWORD         = "your_pia_password"
+          REGION               = "us_chicago" # or any supported PIA region
+        }
+
+        cap_add = ["NET_ADMIN"] # needed for routing
+      }
 
       resources {
         cpu    = 100
         memory = 128
       }
 
-      restart {
-        attempts = 10
-        interval = "5m"
-        delay    = "10s"
-        mode     = "delay"
+      volume_mount {
+        volume      = "secrets"
+        destination = "/gluetun"
+        read_only   = true
+      }
+
+      template {
+        destination = "secrets/.env"
+        env         = true
+        data        = <<EOT
+PIA_USER="your_pia_username"
+PIA_PASSWORD="your_pia_password"
+EOT
       }
     }
   }
 }
-

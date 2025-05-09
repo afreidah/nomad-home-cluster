@@ -1,12 +1,10 @@
 # =============================
-# Nomad Server Config
+# Nomad Server Config (macOS)
 # =============================
 
 bind_addr = "192.168.1.160"
+data_dir  = "/opt/nomad"
 
-data_dir = "/opt/nomad"
-
-# ⬇️ On Linux (Raspberry Pi), change "en0" to "eth0"
 advertise {
   http = "{{ GetInterfaceIP \"en0\" }}"
   rpc  = "{{ GetInterfaceIP \"en0\" }}"
@@ -19,17 +17,8 @@ server {
   raft_multiplier  = 2
 }
 
-
-# Enable the Docker plugin with privileged containers (optional)
 plugin "docker" {
   config {
     allow_privileged = true
   }
 }
-
-#plugin "bridge" {
-#  config {
-#    cni_path = "/opt/cni/bin/"
-#  }
-#}
-
