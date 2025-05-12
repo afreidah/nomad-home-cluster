@@ -2,68 +2,81 @@ job "registry" {
   datacenters = ["dc1"]
   type        = "service"
 
-  group "registry" {
-    count = 1
+  meta {
+    run_uuid = "${uuidv4()}"
+  }
 
+  group "mirror" {
     network {
-      port "http" {
+      mode = "host"
+      port "registry" {
         static = 5000
       }
     }
 
-    volume "registry_data" {
+    # host‑side cache dir
+    volume "cache" {
       type      = "host"
-      source    = "registry_data"
+      source    = "registry_data"   # /opt/nomad/data/registry
       read_only = false
-    }
-
-    service {
-      name     = "registry"
-      port     = "http"
-      provider = "consul"
-
-      tags = [
-        "docker-registry"
-      ]
-
-      check {
-        name     = "http-check"
-        type     = "http"
-        path     = "/v2/"
-        interval = "10s"
-        timeout  = "2s"
-        port     = "http"
-      }
     }
 
     task "registry" {
       driver = "docker"
-    
+
       config {
-        image = "registry:2"
-        ports = ["http"]
+        image        = "registry:2"
+        image_pull_timeout = "10m"
+        network_mode = "host"
+        # ⬆︎ NO command/args override – default entrypoint is fine
+        volumes = [
+          "local/config:/etc/docker/registry",
+        ]
       }
-    
+
+      env { TZ = "UTC" }
+
+      # mount persistent cache
       volume_mount {
-        volume      = "registry_data"
+        volume      = "cache"
         destination = "/var/lib/registry"
         read_only   = false
       }
-    
-      logs {
-        max_files     = 1
-        max_file_size = 10
+
+      template {
+        destination = "local/config/config.yml"
+        change_mode = "restart"
+        perms       = "0644"
+      
+        data = <<EOT
+version: 0.1
+log:
+  level: info
+
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+
+proxy:
+  remoteurl: https://registry-1.docker.io
+
+http:
+  addr: :5000          # ← forces the listener to stay on 5000
+EOT
       }
-    
-      restart {
-        attempts = 3
-        interval = "5m"
-        delay    = "15s"
-        mode     = "fail"
-      }
-    
-      env {
-        REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY = "/var/lib/registry"
+
+      service {
+        name     = "docker-mirror"
+        provider = "consul"
+        port     = "registry"
+
+        check {
+          name         = "http-registry"
+          type         = "http"
+          path         = "/v2/"
+          interval     = "10s"
+          timeout      = "3s"
+        }
       }
     }
   }

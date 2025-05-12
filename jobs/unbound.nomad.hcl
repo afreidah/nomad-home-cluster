@@ -1,12 +1,17 @@
 job "unbound" {
   datacenters = ["dc1"]
   type        = "service"
+  
+  meta {
+    run_uuid = "${uuidv4()}"
+  }
 
   group "unbound" {
     network {
       mode = "host"
       port "dns" {
         static = 5335
+        to = 53
       }
     }
 
@@ -21,6 +26,7 @@ job "unbound" {
 
       config {
         image        = "mvance/unbound:latest"
+        image_pull_timeout = "10m"
         network_mode = "host"
       }
 
@@ -31,7 +37,7 @@ job "unbound" {
       # Mount the host‑volume where Unbound expects its files
       volume_mount {
         volume      = "unbound_data"
-        destination = "/opt/unbound"   # default path used by image
+        destination = "/etc/unbound"   # default path used by image
         read_only   = false
       }
 
@@ -44,7 +50,7 @@ job "unbound" {
         data = <<EOU
 server:
   interface: 0.0.0.0
-  port: 5335
+  port: 53
 
   do-ip4: yes
   do-udp: yes

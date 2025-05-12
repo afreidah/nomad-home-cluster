@@ -2,6 +2,10 @@ job "pihole" {
   datacenters = ["dc1"]
   type        = "service"
 
+  meta {
+    run_uuid = "${uuidv4()}"
+  }
+
   group "pihole" {
     count = 1
 
@@ -68,6 +72,7 @@ EOF
 
       config {
         image        = "pihole/pihole:latest"
+        image_pull_timeout = "10m"
         ports        = ["dns", "http", "https", "dhcp"]
         privileged   = true
         dns_servers  = ["8.8.8.8", "1.1.1.1"]

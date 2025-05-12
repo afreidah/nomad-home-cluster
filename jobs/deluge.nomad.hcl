@@ -2,6 +2,10 @@ job "deluge" {
   datacenters = ["dc1"]
   type        = "service"
 
+  meta {
+    run_uuid = "${uuidv4()}"
+  }
+
   group "deluge" {
     network {
       mode = "host"
@@ -12,6 +16,7 @@ job "deluge" {
 
       config {
         image = "linuxserver/deluge"
+        image_pull_timeout = "10m"
         network_mode = "host"
         volumes = [
           "local/deluge-config:/config",
