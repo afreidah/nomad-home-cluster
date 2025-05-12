@@ -1,3 +1,13 @@
+###############################################################################
+# Unbound DNS Resolver — Nomad service job
+#
+# * Runs the Unbound validating, recursive, caching DNS resolver.
+# * Uses the official mvance/unbound image.
+# * Persists configuration on the host.
+# * Exposes DNS on port 5335 (host) mapped to 53 (container).
+# * Registers service with Consul for discovery and health checks.
+###############################################################################
+
 job "unbound" {
   datacenters = ["dc1"]
   type        = "service"
@@ -96,4 +106,3 @@ EOU
     }
   }
 }
-

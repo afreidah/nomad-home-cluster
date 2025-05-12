@@ -1,20 +1,30 @@
+###############################################################################
+# Docker Registry Mirror — Nomad service job
+#
+# * Runs a Docker registry mirror for caching Docker Hub images.
+# * Uses the official registry:2 image.
+# * Persists cache data on the host.
+# * Exposes HTTP API on port 5000.
+# * Registers service with Consul for discovery and health checks.
+###############################################################################
+
 job "registry" {
-  datacenters = ["dc1"]
-  type        = "service"
+  datacenters = ["dc1"] # Nomad datacenter(s) to run in
+  type        = "service" # Service job type
 
   meta {
-    run_uuid = "${uuidv4()}"
+    run_uuid = "${uuidv4()}" # Unique run identifier
   }
 
   group "mirror" {
     network {
-      mode = "host"
+      mode = "host" # Use host networking for container
       port "registry" {
-        static = 5000
+        static = 5000 # Expose registry on port 5000
       }
     }
 
-    # host‑side cache dir
+    # Host-side cache dir for registry data
     volume "cache" {
       type      = "host"
       source    = "registry_data"   # /opt/nomad/data/registry
@@ -22,27 +32,28 @@ job "registry" {
     }
 
     task "registry" {
-      driver = "docker"
+      driver = "docker" # Use Docker driver
 
       config {
-        image        = "registry:2"
-        image_pull_timeout = "10m"
-        network_mode = "host"
-        # ⬆︎ NO command/args override – default entrypoint is fine
+        image        = "registry:2" # Official Docker registry image
+        image_pull_timeout = "10m"  # Timeout for pulling image
+        network_mode = "host"       # Host networking for container
+        # No command/args override – default entrypoint is fine
         volumes = [
-          "local/config:/etc/docker/registry",
+          "local/config:/etc/docker/registry", # Registry config directory
         ]
       }
 
-      env { TZ = "UTC" }
+      env { TZ = "UTC" } # Set timezone
 
-      # mount persistent cache
+      # Mount persistent cache
       volume_mount {
         volume      = "cache"
         destination = "/var/lib/registry"
         read_only   = false
       }
 
+      # Registry configuration template
       template {
         destination = "local/config/config.yml"
         change_mode = "restart"
@@ -66,19 +77,18 @@ EOT
       }
 
       service {
-        name     = "docker-mirror"
-        provider = "consul"
-        port     = "registry"
+        name     = "docker-mirror" # Service name for Consul
+        provider = "consul"        # Register with Consul
+        port     = "registry"      # Service port
 
         check {
-          name         = "http-registry"
-          type         = "http"
-          path         = "/v2/"
-          interval     = "10s"
-          timeout      = "3s"
+          name         = "http-registry" # Health check name
+          type         = "http"          # HTTP health check
+          path         = "/v2/"          # Path to check
+          interval     = "10s"           # Check interval
+          timeout      = "3s"            # Timeout for check
         }
       }
     }
   }
 }
-

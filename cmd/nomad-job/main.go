@@ -1,5 +1,10 @@
 // Package main provides a simple utility to execute Nomad job files.
 // This program acts as a wrapper around the 'nomad job run' command.
+// 
+// this is stupid and I probably won't use it.  Pretty sure I'm just 
+// going to use chef/cinc and/or terraform/opentofu to provision and 
+// configure the nomad cluster members, and then use one of those tools
+// to deploy the jobs...but I might change my mind
 package main
 
 import (

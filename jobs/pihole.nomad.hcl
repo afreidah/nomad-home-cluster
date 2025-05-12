@@ -1,3 +1,13 @@
+###############################################################################
+# Pi-hole — Nomad service job
+#
+# * Runs the Pi-hole network-wide ad blocker using the official pihole/pihole image.
+# * Persists configuration and DNS data on the host.
+# * Exposes DNS (53/udp, 53/tcp), DHCP (57/udp), HTTP (80/tcp), and HTTPS (443/tcp).
+# * Registers service with Consul for discovery and health checks.
+# * Configures Traefik for HTTPS routing to the admin interface.
+###############################################################################
+
 job "pihole" {
   datacenters = ["dc1"]
   type        = "service"
@@ -21,7 +31,7 @@ job "pihole" {
       }
 
       port "http" {
-        static      = 80
+        static = 80
       }
 
       port "https" {

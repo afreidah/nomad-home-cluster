@@ -1,2 +1,0 @@
-sudo consul agent -config-file=consul-server.hcl
-sudo nomad agent -config=nomad-server.hcl -config=nomad-client.hcl
